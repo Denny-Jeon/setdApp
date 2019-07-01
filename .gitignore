@@ -63,6 +63,5 @@ typings/
 
 docker-compose-org1.yaml
 docker-compose-org2.yaml
-channel-artifacts/*
-crypto-config
-crypto-config/*
+network/channel-artifacts/*
+network/crypto-config
