@@ -1,0 +1,120 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+volumes:
+  ca.org2.biz2.com:
+  peer0.org2.biz2.com:
+  peer1.org2.biz2.com:
+
+networks:
+  sbn:
+
+services:
+  ca.org2.biz2.com:
+    image: hyperledger/fabric-ca:$IMAGE_TAG
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=ca.org2.biz2.com
+      # - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.biz2.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA_PRIVATE_KEY
+    ports:
+      - "8054:7054"
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.org2.biz2.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA_PRIVATE_KEY -b admin:adminpw -d'
+    volumes:
+      # - ./org2-artifacts/crypto-config/peerOrganizations/org2.biz2.com/ca:/etc/hyperledger/fabric-ca-server-config
+      - ./crypto-config/peerOrganizations/org2.biz2.com/ca:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca.org2.biz2.com
+    networks:
+      - sbn
+
+  peer0.org2.biz2.com:
+    container_name: peer0.org2.biz2.com
+    extends:
+      file: base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.org2.biz2.com
+      - CORE_PEER_ADDRESS=peer0.org2.biz2.com:9051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.org2.biz2.com:9052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org2.biz2.com:10051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org2.biz2.com:9051
+      - CORE_PEER_LOCALMSPID=Org2MSP
+    volumes:
+        - /var/run/:/host/var/run/
+        # - ./org2-artifacts/crypto-config/peerOrganizations/org2.biz2.com/peers/peer0.org2.biz2.com/msp:/etc/hyperledger/fabric/msp
+        # - ./org2-artifacts/crypto-config/peerOrganizations/org2.biz2.com/peers/peer0.org2.biz2.com/tls:/etc/hyperledger/fabric/tls
+        - ./crypto-config/peerOrganizations/org2.biz2.com/peers/peer0.org2.biz2.com/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/org2.biz2.com/peers/peer0.org2.biz2.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.org2.biz2.com:/var/hyperledger/production
+    ports:
+      - 9051:9051
+    networks:
+      - sbn
+
+  peer1.org2.biz2.com:
+    container_name: peer1.org2.biz2.com
+    extends:
+      file: base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.org2.biz2.com
+      - CORE_PEER_ADDRESS=peer1.org2.biz2.com:10051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:10051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.org2.biz2.com:10052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.biz2.com:9051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org2.biz2.com:10051
+      - CORE_PEER_LOCALMSPID=Org2MSP
+    volumes:
+        - /var/run/:/host/var/run/
+        # - ./org2-artifacts/crypto-config/peerOrganizations/org2.biz2.com/peers/peer1.org2.biz2.com/msp:/etc/hyperledger/fabric/msp
+        # - ./org2-artifacts/crypto-config/peerOrganizations/org2.biz2.com/peers/peer1.org2.biz2.com/tls:/etc/hyperledger/fabric/tls
+        - ./crypto-config/peerOrganizations/org2.biz2.com/peers/peer1.org2.biz2.com/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/org2.biz2.com/peers/peer1.org2.biz2.com/tls:/etc/hyperledger/fabric/tls
+        - peer1.org2.biz2.com:/var/hyperledger/production
+    ports:
+      - 10051:10051
+    networks:
+      - sbn
+
+
+  Org2cli:
+    container_name: Org2cli
+    image: hyperledger/fabric-tools:$IMAGE_TAG
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - FABRIC_LOGGING_SPEC=INFO
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_ID=Org2cli
+      - CORE_PEER_ADDRESS=peer0.org2.biz2.com:9051
+      - CORE_PEER_LOCALMSPID=Org2MSP
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.biz2.com/peers/peer0.org2.biz2.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.biz2.com/peers/peer0.org2.biz2.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.biz2.com/peers/peer0.org2.biz2.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.biz2.com/users/Admin@org2.biz2.com/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../chaincode/:/opt/gopath/src/github.com/chaincode
+        # - ./org2-artifacts/crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+        # - ./crypto-config/peerOrganizations/org1.biz1.com:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.biz1.com
+        - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+        - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+    depends_on:
+      - ca.org2.biz2.com
+      - peer0.org2.biz2.com
+      - peer1.org2.biz2.com
+    networks:
+      - sbn

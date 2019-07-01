@@ -1,0 +1,37 @@
+{
+    "parser": "babel-eslint",
+    "extends": "airbnb",
+    "parserOptions": {
+        "ecmaVersion": 2016,
+        "sourceType": "module"
+    },
+    "env": {
+        "es6": true,
+        "browser": true,
+        "node": true
+    },
+    "rules": {
+        "quotes": [
+            "error",
+            "double",
+            {
+                "avoidEscape": true
+            }
+        ],
+        "indent": ["error", 4],
+        "no-underscore-dangle": [
+            1,
+            {
+                "allow": ["_id"]
+            }
+        ],
+        "max-len": [
+            2,
+            {
+                "code": 80,
+                "tabWidth": 4,
+                "ignoreUrls": true
+            }
+        ]
+    }
+}

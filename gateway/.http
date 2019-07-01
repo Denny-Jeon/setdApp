@@ -1,0 +1,39 @@
+GET http://localhost:3002/rate
+
+
+
+GET http://localhost:3002/rate/87928090-92fc-11e9-90e8-73e10105d195
+
+
+POST http://localhost:3002/rate
+Content-Type: application/json
+
+{
+    "name":"testRate123",
+    "from":"org1",
+    "to":"org2",
+    "rate":"10"
+}
+
+
+PUT http://localhost:3002/rate/34f66a20-9303-11e9-90e8-73e10105d195
+Content-Type: application/json
+
+{
+    "rate":"30"
+}
+
+
+GET http://localhost:3002/record
+
+
+POST http://localhost:3002/record
+Content-Type: application/json
+
+{
+    "rateId":"34f66a20-9303-11e9-90e8-73e10105d195",
+    "usage":"10000"
+}
+
+
+GET http://localhost:3002/all

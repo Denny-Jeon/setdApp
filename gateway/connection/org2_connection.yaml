@@ -1,0 +1,52 @@
+---
+name: settle-business-network
+version: 1.0.0
+client:
+  organization: Org2
+  connection:
+    timeout:
+      peer:
+        endorser: '300'
+      orderer: '300'
+channels:
+  setchannel1:
+    orderers:
+    - orderer.settle.com
+    peers:
+      peer0.org2.biz2.com: {}
+      peer1.org2.biz2.com: {}
+organizations:
+  Org2:
+    mspid: Org2MSP
+    peers:
+    - peer0.org1.biz2.com
+    - peer1.org1.biz2.com
+    certificateAuthorities:
+    - ca.org2.biz2.com
+orderers:
+  orderer.settle.com:
+    url: grpcs://localhost:7050
+    grpcOptions:
+      ssl-target-name-override: orderer.settle.com
+      grpc-max-send-message-length: -1
+    tlsCACerts:
+      path: "/home/futureds/dApp/setdApp/network/crypto-config/ordererOrganizations/settle.com/tlsca/tlsca.settle.com-cert.pem"
+peers:
+  peer0.org2.biz2.com:
+    url: grpcs://localhost:9051
+    tlsCACerts:
+      path: "/home/futureds/dApp/setdApp/network/crypto-config/peerOrganizations/org2.biz2.com/tlsca/tlsca.org2.biz2.com-cert.pem"
+    grpcOptions:
+      ssl-target-name-override: peer0.org2.biz2.com
+  peer1.org2.biz2.com:
+    url: grpcs://localhost:10051
+    tlsCACerts:
+      path: "/home/futureds/dApp/setdApp/network/crypto-config/peerOrganizations/org2.biz2.com/tlsca/tlsca.org2.biz2.com-cert.pem"
+    grpcOptions:
+      ssl-target-name-override: peer1.org2.biz2.com
+certificateAuthorities:
+  ca.org2.biz2.com:
+    url: http://ca.org2.biz2.com:8054
+    caName: ca.org2.biz2.com
+    httpOption:
+      verify: false
