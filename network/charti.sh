@@ -82,7 +82,7 @@ function generateChannel() {
   set -x
   
 
-  if [ -d "channel-artifacts" ]; then
+  if [ ! -d "channel-artifacts" ]; then
       mkdir ./channel-artifacts
   fi
 
