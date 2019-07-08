@@ -65,3 +65,4 @@ docker-compose-org1.yaml
 docker-compose-org2.yaml
 network/channel-artifacts/*
 network/crypto-config
+gateway/test/javascript/org1/package-lock.json

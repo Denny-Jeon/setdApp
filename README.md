@@ -45,7 +45,16 @@ export SETDAPPHOME=/home/aaa/setdApp
     ./start.sh
 ```
 
-2. 게이트웨이 구동
+2. hosts 파일 수정
+```node    
+    아래 정보를 추가한다. 이유는 인증서를 내려받기 위해서 ca에 접속하는데
+    도메인 이름으로 접속하기 때문에 아래와 같이 hosts 파일에 ca 정보를 추가한다.
+    sudo vi /etc/hosts
+    127.0.0.1 ca.org1.biz1.com
+    127.0.0.1 ca.org2.biz2.com
+```   
+
+3. 게이트웨이 구동
 ```node
     cd ${SETDAPPHOME}/gateway/test/javascript/org1
     npm install
@@ -57,14 +66,14 @@ export SETDAPPHOME=/home/aaa/setdApp
     yarn
     PORT=3002 ORG=org1 yarn start
 ```
-3. UI 구동
+4. UI 구동
 ```node
     cd ${SETDAPPHOME}/ui
     yarn
     yarn start
 ```
 
-4. 블록체인 비즈니스 네트워크 종료
+5. 블록체인 비즈니스 네트워크 종료
 ```sh
     cd ${SETDAPPHOME}/network
     ./stop.sh
