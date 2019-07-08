@@ -81,6 +81,7 @@ function generateChannel() {
   echo "CONSENSUS_TYPE="$CONSENSUS_TYPE
   set -x
   
+
   if [ -d "channel-artifacts" ]; then
       mkdir ./channel-artifacts
   fi
