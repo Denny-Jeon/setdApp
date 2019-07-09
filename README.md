@@ -46,7 +46,7 @@ export SETDAPPHOME=/home/aaa/setdApp
 ```
 
 2. hosts 파일 수정
-```node    
+```sh    
     아래 정보를 추가한다. 이유는 인증서를 내려받기 위해서 ca에 접속하는데
     도메인 이름으로 접속하기 때문에 아래와 같이 hosts 파일에 ca 정보를 추가한다.
     sudo vi /etc/hosts
