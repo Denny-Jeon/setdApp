@@ -54,7 +54,7 @@ export SETDAPPHOME=/home/aaa/setdApp
     127.0.0.1 ca.org2.biz2.com
 ```   
 
-2. connection profile 수정
+3. connection profile 수정
 ```sh    
     org1_connection.json, org1_connection.yaml, org2_connection.json, org2_connection.yaml 파일 내용 중
     tlsCaCert path 부분을 각자의 디렉토리에 맞게 수정한다.
@@ -95,7 +95,7 @@ export SETDAPPHOME=/home/aaa/setdApp
     ...
 ```   
 
-3. 게이트웨이 구동
+4. 게이트웨이 구동
 ```node
     cd ${SETDAPPHOME}/gateway/test/javascript/org1
     npm install
@@ -107,14 +107,15 @@ export SETDAPPHOME=/home/aaa/setdApp
     yarn
     PORT=3002 ORG=org1 yarn start
 ```
-4. UI 구동
+
+5. UI 구동
 ```node
     cd ${SETDAPPHOME}/ui
     yarn
     yarn start
 ```
 
-5. 블록체인 비즈니스 네트워크 종료
+6. 블록체인 비즈니스 네트워크 종료
 ```sh
     cd ${SETDAPPHOME}/network
     ./stop.sh
