@@ -1,5 +1,6 @@
 {
   "name": "settle-business-network",
+  "x-type": "hlfv1",
   "version": "1.0.0",
   "client": {
     "organization": "Org2",

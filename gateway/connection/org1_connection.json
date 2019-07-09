@@ -1,5 +1,6 @@
 {
   "name": "settle-business-network",
+  "x-type": "hlfv1",
   "version": "1.0.0",
   "client": {
     "organization": "Org1",
@@ -45,7 +46,7 @@
         "grpc-max-send-message-length": -1
       },
       "tlsCACerts": {
-        "path": "/home/futureds/dApp/setdApp/network/crypto-config/ordererOrganizations/settle.com/tlsca/tlsca.settle.com-cert.pem"
+        "path": "<디렉토리 변경>/network/crypto-config/ordererOrganizations/settle.com/tlsca/tlsca.settle.com-cert.pem"
       }
     }
   },
@@ -53,7 +54,7 @@
     "peer0.org1.biz1.com": {
       "url": "grpcs://localhost:7051",
       "tlsCACerts": {
-        "path": "/home/futureds/dApp/setdApp/network/crypto-config/peerOrganizations/org1.biz1.com/tlsca/tlsca.org1.biz1.com-cert.pem"
+        "path": "<디렉토리 변경>/network/crypto-config/peerOrganizations/org1.biz1.com/tlsca/tlsca.org1.biz1.com-cert.pem"
       },
       "grpcOptions": {
         "ssl-target-name-override": "peer0.org1.biz1.com"
@@ -62,7 +63,7 @@
     "peer1.org1.biz1.com": {
       "url": "grpcs://localhost:8051",
       "tlsCACerts": {
-        "path": "/home/futureds/dApp/setdApp/network/crypto-config/peerOrganizations/org1.biz1.com/tlsca/tlsca.org1.biz1.com-cert.pem"
+        "path": "<디렉토리 변경>/network/crypto-config/peerOrganizations/org1.biz1.com/tlsca/tlsca.org1.biz1.com-cert.pem"
       },
       "grpcOptions": {
         "ssl-target-name-override": "peer1.org1.biz1.com"

@@ -54,6 +54,47 @@ export SETDAPPHOME=/home/aaa/setdApp
     127.0.0.1 ca.org2.biz2.com
 ```   
 
+2. connection profile 수정
+```sh    
+    org1_connection.json, org1_connection.yaml, org2_connection.json, org2_connection.yaml 파일 내용 중
+    tlsCaCert path 부분을 각자의 디렉토리에 맞게 수정한다.
+    
+    ...
+    "orderers": {
+        "orderer.settle.com": {
+        "url": "grpcs://localhost:7050",
+        "grpcOptions": {
+            "ssl-target-name-override": "orderer.settle.com",
+            "grpc-max-send-message-length": -1
+        },
+        "tlsCACerts": {
+            "path": "<디렉토리 변경>/network/crypto-config/ordererOrganizations/settle.com/tlsca/tlsca.settle.com-cert.pem"
+        }
+        }
+    },
+    "peers": {
+        "peer0.org1.biz1.com": {
+        "url": "grpcs://localhost:7051",
+        "tlsCACerts": {
+            "path": "<디렉토리 변경>/network/crypto-config/peerOrganizations/org1.biz1.com/tlsca/tlsca.org1.biz1.com-cert.pem"
+        },
+        "grpcOptions": {
+            "ssl-target-name-override": "peer0.org1.biz1.com"
+        }
+        },
+        "peer1.org1.biz1.com": {
+        "url": "grpcs://localhost:8051",
+        "tlsCACerts": {
+            "path": "<디렉토리 변경>/setdApp/network/crypto-config/peerOrganizations/org1.biz1.com/tlsca/tlsca.org1.biz1.com-cert.pem"
+        },
+        "grpcOptions": {
+            "ssl-target-name-override": "peer1.org1.biz1.com"
+        }
+        }
+    },
+    ...
+```   
+
 3. 게이트웨이 구동
 ```node
     cd ${SETDAPPHOME}/gateway/test/javascript/org1
