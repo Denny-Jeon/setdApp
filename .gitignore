@@ -66,6 +66,7 @@ docker-compose-org2.yaml
 network/channel-artifacts/*
 network/crypto-config
 gateway/test/javascript/org1/package-lock.json
+gateway/test/javascript/org2/package-lock.json
 gateway/wallet/org1/admin/admin
 gateway/wallet/org1/user1/user1
 gateway/yarn.lock
